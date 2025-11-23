@@ -1,94 +1,87 @@
 import tkinter as tk
-from tkinter import messagebox
 
-Illness = {
-    "cold": "Rest, drink plenty of fluids, and consider taking cold relief tablet (eg- use tablets like acetaminophem).",
-    "headache": "take Rest , Reduce Screentime, Ensure 8 Hours Of sleep and Ensure you are well-hydrated.",
-    "stomach ache": "For indigestion or general upset, try an antacid (like Pentop D or meftal Spas) , Avoid spicy and junk food, Take Rest",
-    "sore throat": "Gargle with warm salt water, and use penicillin if there is any type of throat pain",
-    "fever": "Take tablets like Dolo or Paracetamol. Stay hydrated and monitor your temperature. See a doctor if the fever is very high or lasts more than 24-48 hours.",
-    "allergy": "Take tablets of antihistamine that can help relieve symptoms like sneezing and itching.",
+adviceThings = {
+    "cold": "maybe try some warm soup or tea and just relax a bit",
+    "headache": "drink some water and maybe rest your eyes away from phone",
+    "stomach ache": "dont eat spicy food and like try something light",
+    "sore throat": "warm water or honey tea feels nice sometimes",
+    "fever": "rest and drink water... if it keeps going you should see doctor",
+    "allergy": "try to avoid dust and stuff, maybe allergy tablet if needed"
 }
 
-def get_advice(entry_widget, result):
-    # ...
-    user_illness=entry_widget.get().strip()
-    illness_key=user_illness.lower()
+def showStuff(box, labelThing):
+    txt = box.get()
+    txt = txt.strip()
+    low = txt.lower()
+
+    box.delete(0, tk.END)
+
+    if txt == "":
+        msg = "please type something first"
+    elif low in adviceThings:
     
-    entry_widget.delete(0, tk.END) 
-    
-    if not user_illness: 
-        advice="Please enter an illness..."
-        
-    elif illness_key in Illness:
-        advice_text=Illness[illness_key]
-        advice=f"Based on '{user_illness.title()}':\n {advice_text}"
+        msg = "for " + txt + " maybe try this:\n\n" + adviceThings[low] + "\n\nhope you feel better soon"
     else:
-        advice=f"I am sorry, I do not have a specific suggestion for '{user_illness.title()}'.\n Safety First: Please consult a licensed medical professional or doctor. For common issues, try 'headache' or 'cold'."
+        
+        msg = "sorry i dont have info about '" + txt + "'\n\nmaybe ask a doctor if unsure\nor try typing like cold or headache"
 
     
-    result.config(text=advice)
-    
-def setup_gui():
-    """Sets up the main application window and widgets."""
-    root=tk.Tk()
-    root.title("Basic Illness Advisor")
-    root.geometry("600x400")
-    root.configure(bg="#e0f7fa") 
-    
-    padding_options={'padx': 15, 'pady': 15}
-    
-    title_label = tk.Label(root, 
-                           text=" Basic Home Symptom Advisor", 
-                           font=("Helvetica", 18, "bold"), 
-                           bg="#e0f7fa", 
-                           fg="#004d40")
-    title_label.pack(**padding_options)
+    labelThing.config(text=msg)
 
-    disclaimer_label = tk.Label(root, 
-                                text="Disclaimer: This tool provides *general* OTC advice only. It is NOT a substitute for professional medical consultation.", 
-                                font=("Helvetica", 10, "italic"),
-                                bg="#e0f7fa", 
-                                fg="#c62828", 
-                                wraplength=550)
-    disclaimer_label.pack(pady=(0, 10))
+def start():
+    
+    win = tk.Tk()
+    win.title("symptom helper thing")
+    win.geometry("600x430")
+    win.configure(bg="#e9fffd")
 
-    input_frame=tk.Frame(root, bg="#e0f7fa")
-    input_frame.pack(**padding_options)
     
-    prompt_label=tk.Label(input_frame, 
-                            text="Enter your symptom (e.g., Cold, Headache):", 
-                            font=("Helvetica", 12),
-                            bg="#e0f7fa", 
-                            fg="#004d40")
-    prompt_label.pack(side=tk.LEFT, padx=5)
+    top = tk.Label(win, text="symptom helper", font=("Arial", 20), bg="#e9fffd")
+    top.pack(pady=15)
 
-    illness_entry=tk.Entry(input_frame, width=30, font=("Helvetica", 12))
-    illness_entry.pack(side=tk.LEFT, padx=5)
-    
-    result_label=tk.Label(root, 
-                            text="Type a symptom and click 'Get Advice'.", 
-                            font=("Helvetica", 11),
-                            bg="#ffffff", 
-                            fg="#37474f", 
-                            justify=tk.LEFT, 
-                            wraplength=550, 
-                            relief=tk.RIDGE, 
-                            bd=2, 
-                            height=8, 
-                            width=65, 
-                            anchor="nw") 
-    result_label.pack(**padding_options)
-    
-    advice_button=tk.Button(root, 
-                              text="Get Advice", 
-                              command=lambda: get_advice(illness_entry, result_label),
-                              font=("Helvetica", 12, "bold"),
-                              bg="#00796b", 
-                              fg="#ffffff", 
-                              activebackground="#004d40")
-    advice_button.pack(pady=(0, 15))
-    
-    root.mainloop()
+    note = tk.Label(win,
+        text="this isnt medical advice btw just normal ideas",
+        font=("Arial", 9, "italic"),
+        bg="#e9fffd",
+        fg="#bb0000"
+    )
+    note.pack()
+
+    frame = tk.Frame(win, bg="#e9fffd")
+    frame.pack(pady=18)
+
+    ask = tk.Label(frame, text="what symptom do you have?", font=("Arial", 12), bg="#e9fffd")
+    ask.pack(side=tk.LEFT)
+
+    entryThing = tk.Entry(frame, width=26, font=("Arial", 12))
+    entryThing.pack(side=tk.LEFT, padx=8)
+
+    output = tk.Label(win,
+        text="type something above and press the button",
+        font=("Arial", 11),
+        bg="#ffffff",
+        fg="#222",
+        wraplength=550,
+        justify=tk.LEFT,
+        relief=tk.RIDGE,
+        bd=2,
+        height=12,
+        width=65,
+        anchor="nw"
+    )
+    output.pack(pady=15)
+
+    btn = tk.Button(win,
+        text="get suggestion",
+        command=lambda: showStuff(entryThing, output),
+        font=("Arial", 12, "bold"),
+        bg="#0b8b82",
+        fg="#ffffff",
+        padx=10,
+        pady=6
+    )
+    btn.pack()
+
+    win.mainloop()
 if __name__ == "__main__":
-    setup_gui()
+    start()
