@@ -1,4 +1,5 @@
 Symptom Helper Project Statement
+
 1.) Statement
 The goal is to address the need for quick, accessible, non-medical, common-sense advice when an individual experiences mild, everyday symptoms. Users often search for immediate 
 home remedies or self-care suggestions for minor discomforts like headaches, colds, or stomach aches. This simple application provides immediate, pre-defined comforting 
